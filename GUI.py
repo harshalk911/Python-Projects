@@ -10,11 +10,15 @@ list_box = gui.Listbox(values=functions.get_todos(), key='todos',
                        enable_events=True, size=(45, 10))
 
 edit_button = gui.Button('Edit')
-
 complete_button = gui.Button('Complete')
+exit_button = gui.Button("Exit")
+output_text = gui.Text(key='output', text_color='Green')
 
 window = gui.Window("My To-Do App",
-                    layout=[[label],[input_box, add_button],[list_box,edit_button,complete_button]],
+                    layout=[[label],
+                            [input_box, add_button],
+                            [list_box,edit_button,complete_button],
+                            [exit_button, output_text]],
                     font=('Helvetica', 20))
 
 while True:
@@ -28,6 +32,8 @@ while True:
             todos.append(new_todo)
             functions.write_todos(todos)
             window['todos'].update(values=todos)
+            window['todo'].update('')
+            window['output'].update("New To-Do is Added!")
 
         case 'Edit':
             todo_to_edit = values['todos'][0]
@@ -37,14 +43,20 @@ while True:
             todos[index] = new_todo
             functions.write_todos(todos)
             window['todos'].update(values=todos)
+            window['todo'].update('')
+            window['output'].update("To-Do is Edited!")
 
         case 'Complete':
             todo_to_complete = values['todos'][0]
             todos = functions.get_todos()
-            index = todos.index(todo_to_complete)
-            todos.pop(index)
+            todos.remove(todo_to_complete)
             functions.write_todos(todos)
             window['todos'].update(values=todos)
+            window['todo'].update('')
+            window['output'].update("To-Do is Completed!")
+
+        case 'Exit':
+            break
 
         case 'todos':
             window['todo'].update(value=values['todos'][0])
