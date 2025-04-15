@@ -1,6 +1,5 @@
 New List
-Walk The Dog
-Do The Chores
+Walk The Dog!Do The Chores
 Create Complete Button
 Was The Input Button Updated
-Yes It Was
+Yes It Was updatedNew Todo
