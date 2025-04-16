@@ -1,20 +1,24 @@
 import functions
 import FreeSimpleGUI as gui
 import time
+import os
 
+if not os.path.exists("todo.txt"):
+    with open("todo.txt",'w'):
+        pass
 
 gui.theme('DarkBlack')
 clock = gui.Text('', key='clock')
 label = gui.Text("Type in a To-Do")
 input_box = gui.Input(tooltip='Enter To-Do:', key='todo')
-add_button = gui.Button('Add')
+add_button = gui.Button('Add', mouseover_colors='LightBlue')
 list_box = gui.Listbox(values=functions.get_todos(), key='todos',
                        enable_events=True, size=(45, 10))
 
 edit_button = gui.Button('Edit')
 complete_button = gui.Button('Complete')
 exit_button = gui.Button("Exit")
-output_text = gui.Text(key='output', text_color='Green')
+output_text = gui.Text(key='output')
 
 window = gui.Window("My To-Do App",
                     layout=[[clock],
@@ -26,6 +30,10 @@ window = gui.Window("My To-Do App",
 
 while True:
     event, values = window.read(timeout=100)
+
+    if event == gui.WIN_CLOSED:
+        break
+
     window['clock'].update(value=time.strftime("%b %d, %Y %H:%M:%S"))
 
     match event:
@@ -70,8 +78,5 @@ while True:
         case 'todos':
             window['todo'].update(value=values['todos'][0])
 
-        case gui.WIN_CLOSED:
-            break
-
-
+window.close()
 
